@@ -42,7 +42,7 @@ define ipmi::user (
 
   exec { "ipmi_user_setpw_${title}":
     command => "/usr/bin/ipmitool user set password ${user_id} \'${password}\'",
-    unless  => "/usr/bin/ipmitool user test ${user_id} 16 \'${password}\'",
+    unless  => "/usr/bin/ipmitool user test ${user_id} 16 \'${password}\' || /usr/bin/ipmitool user test ${user_id} 20 \'${password}\'",
     notify  => [Exec["ipmi_user_enable_${title}"], Exec["ipmi_user_enable_sol_${title}"], Exec["ipmi_user_channel_setaccess_${title}"]],
   }
 
